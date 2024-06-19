@@ -1,0 +1,36 @@
+.table-auto {
+  @apply w-full text-left text-gray-300;
+}
+
+.table-auto th,
+.table-auto td {
+  @apply px-4 py-2;
+}
+
+.table-auto th {
+  @apply bg-zinc-950;
+}
+
+.table-auto td {
+  @apply bg-zinc-900;
+}
+
+.button-base {
+  @apply bg-transparent text-white font-bold py-2 px-4;
+}
+
+.button-disabled {
+  @apply cursor-not-allowed;
+}
+
+.button-enabled {
+  @apply hover:border-b;
+}
+
+.button-active {
+  @apply bg-blue-500;
+}
+
+.button-inactive {
+  @apply bg-transparent;
+}

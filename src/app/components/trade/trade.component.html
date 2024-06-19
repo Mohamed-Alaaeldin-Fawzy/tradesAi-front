@@ -1,0 +1,66 @@
+<div *ngIf="isInstrumentSelected$ | async">
+  <form
+    class="p-4 flex flex-col gap-4 sm:w-[580px] mx-auto shadow-md mt-4 bg-zinc-950 rounded-md cursor-grab active:cursor-grabbing"
+    (ngSubmit)="placeOrder()"
+    cdkDrag
+  >
+    <h1 class="text-2xl uppercase font-semibold self-center pt-4">
+      Place Order
+    </h1>
+    <div class="text-white flex flex-col items-center gap-4">
+      <span class="text-white text-xl font-semibold">{{
+        name || "Select an instrument"
+      }}</span>
+      <div
+        class="rounded-lg shadow-lg p-4 flex items-center space-x-4 w-full justify-center"
+      >
+        <button
+          type="button"
+          class="bg-red-500 hover:bg-red-600 text-white py-2 px-6 w-24 rounded focus:outline-none"
+          (click)="setOrderType('sell')"
+        >
+          SELL
+        </button>
+        <div class="flex flex-col items-center justify-center grow space-y-2">
+          <div
+            class="flex items-center bg-gray-950 border border-gray-600 w-full justify-between rounded px-2"
+          >
+            <button
+              type="button"
+              class="text-white hover:text-gray-200 px-2 focus:outline-none"
+              (click)="decreaseVolume()"
+            >
+              -
+            </button>
+            <div
+              class="rounded-lg text-white bg-gray-950 flex flex-col text-center"
+            >
+              <input
+                type="text"
+                [(ngModel)]="orderData.qty"
+                name="volume"
+                readonly
+                class="text-center w-16 mx-2 focus:outline-none text-white bg-gray-950"
+              />
+              <div class="text-gray-500 text-xs">lots</div>
+            </div>
+            <button
+              type="button"
+              class="text-white hover:text-gray-200 px-2 focus:outline-none"
+              (click)="increaseVolume()"
+            >
+              +
+            </button>
+          </div>
+        </div>
+        <button
+          type="button"
+          class="bg-green-500 hover:bg-green-600 text-white py-2 px-6 rounded w-24 focus:outline-none"
+          (click)="setOrderType('buy')"
+        >
+          BUY
+        </button>
+      </div>
+    </div>
+  </form>
+</div>

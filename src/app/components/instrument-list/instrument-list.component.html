@@ -1,0 +1,77 @@
+<div class="container mx-auto px-4 py-8">
+  <div
+    *ngIf="isLoading$ | async; else content"
+    class="flex justify-center items-center h-full"
+  >
+    <div class="loader"></div>
+  </div>
+
+  <ng-template #content>
+    <h1 class="text-2xl font-bold mb-4 sm:text-xl md:text-lg">
+      Select Instrument to start trading
+    </h1>
+    <div class="overflow-x-auto rounded-md shadow">
+      <table class="w-full text-gray-300 text-center">
+        <thead>
+          <tr class="bg-zinc-950">
+            <th class="px-2 py-1 text-xs sm:px-4 sm:py-2 sm:text-sm">
+              Instrument
+            </th>
+            <th class="px-2 py-1 text-xs sm:px-4 sm:py-2 sm:text-sm">
+              Description
+            </th>
+            <th class="px-2 py-1 text-xs sm:px-4 sm:py-2 sm:text-sm">Type</th>
+            <th class="px-2 py-1 text-xs sm:px-4 sm:py-2 sm:text-sm">
+              Trading Exchange
+            </th>
+            <th class="px-2 py-1 text-xs sm:px-4 sm:py-2 sm:text-sm">
+              Market Data Exchange
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr
+            *ngFor="let instrument of paginatedInstruments"
+            class="bg-zinc-900 hover:bg-zinc-800 cursor-pointer text-xs sm:text-sm"
+            (click)="selectInstrument(instrument)"
+          >
+            <td class="px-2 py-1">{{ instrument.name }}</td>
+            <td class="px-2 py-1">{{ instrument.description || "-" }}</td>
+            <td class="px-2 py-1">{{ instrument.type }}</td>
+            <td class="px-2 py-1">{{ instrument.tradingExchange }}</td>
+            <td class="px-2 py-1">{{ instrument.marketDataExchange }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="flex flex-wrap justify-center items-center space-x-1 p-2">
+      <button
+        class="bg-transparent text-white font-bold py-1 px-2 sm:py-2 sm:px-4 hover:border-b"
+        (click)="onPageChange(currentPage - 1)"
+        [class.cursor-not-allowed]="currentPage === 1"
+        [class.hover:border-b-0]="currentPage === 1"
+        [disabled]="currentPage === 1"
+      >
+        Previous
+      </button>
+      <button
+        *ngFor="let page of getPageNumbers()"
+        class="text-white font-bold py-1 px-2 sm:py-2 sm:px-4 hover:bg-gray-400 rounded-md"
+        [class.bg-blue-500]="page === currentPage"
+        [class.bg-transparent]="page !== currentPage"
+        (click)="onPageChange(page)"
+      >
+        {{ page }}
+      </button>
+      <button
+        class="bg-transparent text-white font-bold py-1 px-2 sm:py-2 sm:px-4 hover:border-b"
+        (click)="onPageChange(currentPage + 1)"
+        [class.cursor-not-allowed]="currentPage === totalPages"
+        [class.hover:border-b-0]="currentPage === totalPages"
+        [disabled]="currentPage === totalPages"
+      >
+        Next
+      </button>
+    </div>
+  </ng-template>
+</div>
