@@ -7,7 +7,7 @@ import { environment } from '../../../environment';
   providedIn: 'root',
 })
 export class TradeService {
-  private apiUrl = environment.apiUrl;
+  private apiUrl = 'https://tradesai-back.onrender.com';
 
   constructor(private http: HttpClient) {}
 
