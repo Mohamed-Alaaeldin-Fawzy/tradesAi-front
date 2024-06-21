@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { environment } from '../../environments/environments.prod';
 
 @Injectable({
   providedIn: 'root',
 })
 export class TradeService {
-  private apiUrl = 'https://tradesai-back.onrender.com';
+  private apiUrl = environment.apiUrl;
 
   constructor(private http: HttpClient) {}
 

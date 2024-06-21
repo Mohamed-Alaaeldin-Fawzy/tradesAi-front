@@ -4,6 +4,8 @@ import { SelectedInstrumentService } from '../../services/selected-instrument.se
 import { LoadingService } from '../../services/loading.service'; // Import LoadingService
 import { CommonModule } from '@angular/common';
 import { ToastrService } from 'ngx-toastr';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-instrument-list',
@@ -21,12 +23,20 @@ export class InstrumentListComponent implements OnInit {
   totalPages = 0;
   isLoading$ = this.loadingService.loading$;
   selectedInstrumentId = 0;
+
+  InstrumentNotSelected$: Observable<boolean>;
+
   constructor(
     private tradeService: TradeService,
     private selectedInstrumentService: SelectedInstrumentService,
     private loadingService: LoadingService,
     private toastr: ToastrService
-  ) {}
+  ) {
+    this.InstrumentNotSelected$ =
+      this.selectedInstrumentService.isInstrumentSelected$.pipe(
+        map((isSelected) => !isSelected)
+      );
+  }
 
   ngOnInit(): void {
     this.loadInstruments();

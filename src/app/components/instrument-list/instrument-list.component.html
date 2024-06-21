@@ -6,7 +6,10 @@
 </div>
 
 <ng-template #content>
-  <h1 class="md:text-2xl font-bold p-4 text-xl sm:text-lg">
+  <h1
+    class="md:text-2xl font-bold p-4 text-xl sm:text-lg"
+    *ngIf="InstrumentNotSelected$ | async"
+  >
     Select Instrument to start trading
   </h1>
   <div class="rounded-md shadow">

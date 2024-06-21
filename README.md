@@ -1,27 +1,74 @@
-# TradesAiTest
+# Trading Application Frontend
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 18.0.4.
+This project is the frontend part of a trading platform that allows users to select trading instruments, place orders, It's built using Angular and styled with Tailwind CSS.
 
-## Development server
+## Features
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+- **Instrument Selection**: Users can browse and select different trading instruments.
+- **Order Placement**: Users can place buy or sell orders.
+- **Dynamic Loading States**: Provides visual feedback when data is being loaded.
+- **Responsive Design**: Fully responsive design using Tailwind CSS.
 
-## Code scaffolding
+## Prerequisites
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+- Node.js
+- npm
+- Angular CLI
 
-## Build
+## Getting Started
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.
 
-## Running unit tests
+### Installation
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/Mohamed-Alaaeldin-Fawzy/tradesAi-front
+   ```
+2. Navigate to the project directory:
+   ```bash
+   cd tradesAi-front
+   ```
+3. Install dependencies:
+   ```bash
+   npm install
+   ```
 
-## Running end-to-end tests
+### Running the Application
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+1. Run the development server:
+   ```bash
+   ng serve
+   ```
+2. Open `http://localhost:4200` in your browser to view the application.
 
-## Further help
+## Built With
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+- [Angular](https://angular.io/) - The web framework used
+- [Tailwind CSS](https://tailwindcss.com/) - For styling
+- [RxJS](https://rxjs.dev/) - Reactive programming library for handling asynchronous data calls
+- [ngx-toastr](https://www.npmjs.com/package/ngx-toastr) - For displaying alerts and messages
+
+## Components
+
+### Instrument List
+
+This component displays a list of tradable instruments and allows users to select an instrument to trade.
+
+### Trade
+
+This component allows users to place orders once an instrument is selected. It includes dynamic form controls to set the order type and quantity.
+
+## Services
+
+### TradeService
+
+Handles all API interactions related to trading activities.
+
+### LoadingService
+
+Manages the UI loading state across the application.
+
+### SelectedInstrumentService
+
+Manages the state of the currently selected instrument in the application.
