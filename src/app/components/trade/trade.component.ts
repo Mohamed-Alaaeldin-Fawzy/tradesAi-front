@@ -6,19 +6,22 @@ import { FormsModule } from '@angular/forms';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { Observable, Subscription } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-trade',
   standalone: true,
-  imports: [CommonModule, FormsModule, DragDropModule],
+  imports: [CommonModule, FormsModule, DragDropModule, MatIconModule],
   templateUrl: './trade.component.html',
   styleUrls: ['./trade.component.css'],
 })
 export class TradeComponent implements OnInit, OnDestroy {
   name = '';
+  isFormVisible = true;
+
   orderData = {
     price: 0,
-    qty: 0,
+    qty: 1,
     routeId: 0,
     side: '',
     tradableInstrumentId: 0,
@@ -42,6 +45,7 @@ export class TradeComponent implements OnInit, OnDestroy {
     this.subscription =
       this.selectedInstrumentService.selectedInstrument$.subscribe(
         (instrument) => {
+          this.isFormVisible = true;
           this.name = instrument.name;
           this.orderData.tradableInstrumentId = instrument.tradableInstrumentId;
           if (instrument.routes !== undefined) {
@@ -85,5 +89,9 @@ export class TradeComponent implements OnInit, OnDestroy {
     if (this.orderData.qty > 1) {
       this.orderData.qty = this.orderData.qty - 1;
     }
+  }
+
+  toggleFormVisibility(): void {
+    this.isFormVisible = !this.isFormVisible;
   }
 }

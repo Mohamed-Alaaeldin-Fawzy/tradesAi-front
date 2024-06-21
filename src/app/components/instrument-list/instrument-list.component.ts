@@ -20,7 +20,7 @@ export class InstrumentListComponent implements OnInit {
   totalItems = 0;
   totalPages = 0;
   isLoading$ = this.loadingService.loading$;
-
+  selectedInstrumentId = 0;
   constructor(
     private tradeService: TradeService,
     private selectedInstrumentService: SelectedInstrumentService,
@@ -57,7 +57,9 @@ export class InstrumentListComponent implements OnInit {
   }
 
   selectInstrument(instrument: any): void {
+    this.selectedInstrumentId = instrument.id; // Set the selected instrument's id
     this.selectedInstrumentService.setSelectedInstrument(instrument);
+    console.log(this.selectedInstrumentId, instrument);
   }
 
   onPageChange(page: number): void {

@@ -14,3 +14,6 @@
 .toast-error {
   @apply px-6 py-2 rounded-md bg-red-400 text-white fixed top-8 left-4;
 }
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
