@@ -1,7 +1,27 @@
 <app-navbar></app-navbar>
 <div
-  class="container max-w-5xl mx-auto flex flex-col items-center justify-center min-h-[70vh]"
+  *ngIf="loadingService.loading$ | async; else content"
+  class="flex justify-center items-center h-[60vh]"
 >
-  <app-trade></app-trade>
-  <app-instrument-list></app-instrument-list>
+  <div class="loader"></div>
 </div>
+
+<ng-template #content>
+  <div
+    class="flex md:space-x-4 md:max-w-[82vw] mx-auto items-center 2xl:items-start justify-center flex-col xl:flex-row"
+  >
+    <app-chart></app-chart>
+    <div class="flex flex-col py-4 px-2 items-center justify-center">
+      <div *ngIf="instruments.length > 0">
+        <app-trade></app-trade>
+        <app-instrument-list
+          [instruments]="instruments"
+          [types]="types"
+        ></app-instrument-list>
+      </div>
+    </div>
+  </div>
+  <div class="py-4 px-2">
+    <app-positions [positions]="positions"></app-positions>
+  </div>
+</ng-template>

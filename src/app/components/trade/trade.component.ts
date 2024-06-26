@@ -71,7 +71,6 @@ export class TradeComponent implements OnInit, OnDestroy {
   placeOrder(): void {
     this.tradeService.placeOrder(this.orderData).subscribe(
       (response) => {
-        console.log('Order placed successfully:', response);
         this.toastr.success('Order placed successfully', 'Success');
       },
       (error) => {

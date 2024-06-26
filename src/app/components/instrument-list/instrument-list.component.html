@@ -1,85 +1,71 @@
 <div
-  *ngIf="isLoading$ | async; else content"
-  class="flex justify-center items-center h-full"
+  class="justify-between hidden md:flex w-[400px] sm:w-[600px] bg-zinc-950 border-b border-zinc-700 p-2 rounded-t shadow-md"
 >
-  <div class="loader"></div>
-</div>
-
-<ng-template #content>
-  <h1
-    class="md:text-2xl font-bold p-4 text-xl sm:text-lg"
-    *ngIf="InstrumentNotSelected$ | async"
+  <div
+    class="inline-flex items-center rounded-md bg-zinc-900 space-x-1 px-2 m-1"
   >
-    Select Instrument to start trading
-  </h1>
-  <div class="rounded-md shadow">
-    <table class="text-gray-300 text-center w-full">
-      <thead>
-        <tr class="bg-zinc-950">
-          <th class="px-2 py-1 text-xs sm:px-4 sm:py-2 sm:text-sm">
-            Instrument
-          </th>
-          <th class="px-2 py-1 text-xs sm:px-4 sm:py-2 sm:text-sm">
-            Description
-          </th>
-          <th class="px-2 py-1 text-xs sm:px-4 sm:py-2 sm:text-sm">Type</th>
-          <th class="px-2 py-1 text-xs sm:px-4 sm:py-2 sm:text-sm">
-            Trading Exchange
-          </th>
-          <th class="px-2 py-1 text-xs sm:px-4 sm:py-2 sm:text-sm">
-            Market Data Exchange
-          </th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr
-          *ngFor="let instrument of paginatedInstruments"
-          class="hover:bg-zinc-800 cursor-pointer text-xs sm:text-sm"
-          [ngClass]="{
-            'bg-zinc-900': instrument.id !== selectedInstrumentId,
-            'bg-zinc-800 border-1 border-zinc-700':
-              instrument.id === selectedInstrumentId
-          }"
-          (click)="selectInstrument(instrument)"
-        >
-          <td class="px-2 py-1">{{ instrument.name }}</td>
-          <td class="px-2 py-1">{{ instrument.description || "-" }}</td>
-          <td class="px-2 py-1">{{ instrument.type }}</td>
-          <td class="px-2 py-1">{{ instrument.tradingExchange }}</td>
-          <td class="px-2 py-1">{{ instrument.marketDataExchange }}</td>
-        </tr>
-      </tbody>
-    </table>
+    <label for="search" class="h-full flex items-center">
+      <mat-icon class="text-zinc-400"> search </mat-icon>
+    </label>
+    <input
+      id="search"
+      name="search"
+      [(ngModel)]="searchQuery"
+      (ngModelChange)="applyFilters()"
+      type="text"
+      class="px-4 py-2 bg-zinc-900 text-white active:outline-none outline-none"
+      placeholder="search"
+    />
   </div>
   <div
-    class="flex flex-wrap justify-center items-center space-x-1 p-2 max-w-[90%]"
+    class="inline-flex items-center rounded-md bg-zinc-900 space-x-1 px-2 m-1"
   >
-    <button
-      class="bg-transparent text-white font-bold py-1 px-2 sm:py-2 sm:px-4 hover:border-b"
-      (click)="onPageChange(currentPage - 1)"
-      [class.cursor-not-allowed]="currentPage === 1"
-      [class.hover:border-b-0]="currentPage === 1"
-      [disabled]="currentPage === 1"
+    <select
+      name="filter"
+      id="filter"
+      [(ngModel)]="selectedType"
+      (ngModelChange)="applyFilters()"
+      class="px-4 py-2 bg-zinc-900 text-white active:outline-none outline-none"
     >
-      Previous
-    </button>
-    <button
-      *ngFor="let page of getPageNumbers()"
-      class="text-white font-bold py-1 px-2 sm:py-2 sm:px-4 hover:bg-gray-400 rounded-md"
-      [class.bg-blue-500]="page === currentPage"
-      [class.bg-transparent]="page !== currentPage"
-      (click)="onPageChange(page)"
-    >
-      {{ page }}
-    </button>
-    <button
-      class="bg-transparent text-white font-bold py-1 px-2 sm:py-2 sm:px-4 hover:border-b"
-      (click)="onPageChange(currentPage + 1)"
-      [class.cursor-not-allowed]="currentPage === totalPages"
-      [class.hover:border-b-0]="currentPage === totalPages"
-      [disabled]="currentPage === totalPages"
-    >
-      Next
-    </button>
+      <option value="">All</option>
+      <option *ngFor="let type of types" [value]="type">{{ type }}</option>
+    </select>
   </div>
-</ng-template>
+</div>
+<div class="overflow-auto sm:w-[600px] max-h-[250px] rounded-b-md shadow-md">
+  <table class="text-gray-100 text-center w-full">
+    <thead>
+      <tr class="bg-zinc-950">
+        <th class="px-2 py-1 text-xs sm:px-4 sm:py-2 sm:text-sm">Instrument</th>
+        <th
+          class="px-2 py-1 text-xs sm:px-4 sm:py-2 sm:text-sm hidden sm:inline-block"
+        >
+          Description
+        </th>
+        <th class="px-2 py-1 text-xs sm:px-4 sm:py-2 sm:text-sm">Type</th>
+        <th class="px-2 py-1 text-xs sm:px-4 sm:py-2 sm:text-sm">TE</th>
+        <th class="px-2 py-1 text-xs sm:px-4 sm:py-2 sm:text-sm">Market DE</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr
+        *ngFor="let instrument of filteredInstruments"
+        class="hover:bg-zinc-800 cursor-pointer text-xs sm:text-sm"
+        [ngClass]="{
+          'bg-zinc-900': instrument.id !== selectedInstrumentId,
+          'bg-blue-800 bg-opacity-45 border-1 border-zinc-700':
+            instrument.id === selectedInstrumentId
+        }"
+        (click)="selectInstrument(instrument)"
+      >
+        <td class="px-2 py-1">{{ instrument.name }}</td>
+        <td class="px-2 py-1 hidden sm:inline-block">
+          {{ instrument.description || "-" }}
+        </td>
+        <td class="px-2 py-1">{{ instrument.type }}</td>
+        <td class="px-2 py-1">{{ instrument.tradingExchange }}</td>
+        <td class="px-2 py-1">{{ instrument.marketDataExchange }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

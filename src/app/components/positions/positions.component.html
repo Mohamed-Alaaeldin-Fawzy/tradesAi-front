@@ -1,0 +1,49 @@
+<div
+  class="md:max-w-[82vw] mx-auto bg-zinc-900 border-b border-zinc-600 rounded-t-lg py-2 px-4 text-white font-bolde text-sm"
+>
+  Positions ({{ positions.length }})
+</div>
+
+<div
+  class="overflow-auto md:max-w-[82vw] mx-auto max-h-[270px] rounded-b-lg shadow-xl"
+>
+  <table class="text-gray-100 w-full">
+    <thead>
+      <tr class="bg-zinc-900 text-zinc-500 text-xs font-bold">
+        <th class="py-2">Instrument</th>
+        <th class="py-2">Side</th>
+        <th class="py-2">Size</th>
+        <th class="py-2">Margin</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr
+        *ngFor="let position of positions"
+        class="hover:bg-zinc-800 cursor-pointer text-xs sm:text-sm text-center bg-zinc-900"
+      >
+        <td class="py-1">{{ position[1] }}</td>
+        <td
+          class="py-1 uppercase"
+          [ngClass]="{
+            'text-green-400': position[3] === 'buy',
+            'text-red-400': position[3] === 'sell'
+          }"
+        >
+          {{ position[3] }}
+        </td>
+        <td class="py-1">
+          {{ position[4] }}
+        </td>
+        <td
+          class="py-1"
+          [ngClass]="{
+            'text-green-400': position[9] > 0,
+            'text-red-400': position[9] < 0
+          }"
+        >
+          {{ position[9] }}
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
